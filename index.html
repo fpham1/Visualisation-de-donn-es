@@ -1,0 +1,288 @@
+<!-- Title -->
+<h1 style="display: block; font-family: Avenir Next; width: 150px; text-align: right; font-size: 15px;">
+    Your social DNA
+</h1>
+
+<!-- Labels -->
+<p>
+    <label for="nHours" style="display: inline-block; font-family: Avenir Next; width: 150px; text-align: right">
+        FACEBOOK <span id="nHours-value">5</span>
+    </label>
+    <input type="range" value="5" min="0" max="24" id="nHours">
+</p>
+
+<p>
+    <label for="nHoursIG" style="display: inline-block; font-family: Avenir Next; width: 150px; text-align: right">
+        INSTAGRAM <span id="nHoursIG-value">5</span>
+    </label>
+    <input type="range" value="5" min="0" max="24" id="nHoursIG">
+</p>
+
+<p>
+    <label for="nHoursSnap" style="display: inline-block; font-family: Avenir Next; width: 150px; text-align: right">
+        SNAPCHAT <span id="nHoursSnap-value">5</span>
+    </label>
+    <input type="range" value="5" min="0" max="24" id="nHoursSnap">
+</p>
+
+<p>
+    <label for="nHoursTW" style="display: inline-block; font-family: Avenir Next; width: 150px; text-align: right">
+        TWITTER <span id="nHoursTW-value">5</span>
+    </label>
+    <input type="range" value="5" min="0" max="24" id="nHoursTW">
+</p>
+
+<!-- Charts -->
+<!-- Facebook chart -->
+<div id="chart1" height="500"></div>
+<!-- Instagram chart -->
+<div id="chart2" height="500"></div>
+<!-- Snapchat chart -->
+<div id="chart3" height="500"></div>
+<!-- Twitter chart -->
+<div id="chart4" height="500"></div>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- Responsive -->
+<script>
+function responsivefy(svg) {
+  // get container + svg aspect ratio
+  var container = d3.select(svg.node().parentNode),
+      width = parseInt(svg.style("width")),
+      height = parseInt(svg.style("height")),
+      aspect = width / height;
+
+  // add viewBox and preserveAspectRatio properties,
+  // and call resize so that svg resizes on inital page load
+  svg.attr("viewBox", "0 0 " + width + " " + height)
+      .attr("perserveAspectRatio", "xMinYMid")
+      .call(resize);
+
+  d3.select(window).on("resize." + container.attr("id"), resize);
+
+  // get width of container and resize svg to fit it
+  function resize() {
+      var targetWidth = parseInt(container.style("width"));
+      svg.attr("width", targetWidth);
+      svg.attr("height", Math.round(targetWidth / aspect));
+  }
+}
+</script>
+
+<!-- Script D3 -->
+<script>
+var width = innerWidth - 10;
+var height = 210;
+
+// Facebook variable
+var svg1 = d3.select("#chart1")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", "container")
+            .call(responsivefy)
+            .append("g")
+            .attr("transform", "translate(" + -width / 2 + ", " + height / 2 + ")");
+
+var data1 = d3.range(width).map(function(d) {
+    return d;
+});
+
+// Instagram variable
+var svg2 = d3.select("#chart2")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", "container")
+            .call(responsivefy)
+            .append("g")
+            .attr("transform", "translate(" + -width / 2 + ", " + height / 2 + ")");
+
+var data2 = d3.range(width).map(function(d) {
+    return d;
+});
+
+// Snapchat variable
+var svg3 = d3.select("#chart3")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", "container")
+            .call(responsivefy)
+            .append("g")
+            .attr("transform", "translate(" + -width / 2 + ", " + height / 2 + ")");
+
+var data3 = d3.range(width).map(function(d) {
+    return d;
+});
+
+// Twitter variable
+var svg4 = d3.select("#chart4")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", "container")
+            .call(responsivefy)
+            .append("g")
+            .attr("transform", "translate(" + -width / 2 + ", " + height / 2 + ")");
+
+var data4 = d3.range(width).map(function(d) {
+    return d;
+});
+
+// Values update
+d3.select("#nHours").on("input", function() {
+    d3.select("#nHours-value").text(this.value);
+    d3.select("#nHours").property("value", this.value);
+    updateFB(+this.value);
+});
+
+d3.select("#nHoursIG").on("input", function() {
+    d3.select("#nHoursIG-value").text(this.value);
+    d3.select("#nHoursIG").property("value", this.value);
+    updateIG(+this.value);
+});
+
+d3.select("#nHoursSnap").on("input", function() {
+    d3.select("#nHoursSnap-value").text(this.value);
+    d3.select("#nHoursSnap").property("value", this.value);
+    updateSnap(+this.value);
+});
+
+d3.select("#nHoursTW").on("input", function() {
+    d3.select("#nHoursTW-value").text(this.value);
+    d3.select("#nHoursTW").property("value", this.value);
+    updateTW(+this.value);
+});
+
+// update facebook elements
+function updateFB(value) {
+    // update the circles radius
+    svg1.selectAll("ellipse").attr("rx", value * 3);
+}
+
+// update instagram elements
+function updateIG(value) {
+    // update the circles radius
+    svg2.selectAll("ellipse").attr("rx", value * 3);
+}
+
+// update snapchat elements
+function updateSnap(value) {
+    // update the circles radius
+    svg3.selectAll("ellipse").attr("rx", value * 3);
+}
+
+// update twitter elements
+function updateTW(value) {
+    // update the circles radius
+    svg4.selectAll("ellipse").attr("rx", value * 3);
+}
+
+// Shapes
+var circle1 = svg1.selectAll("ellipse")
+    .data(data1)
+    .enter()
+    .append("ellipse")
+    .attr("cy", 0)
+    .attr("cx", function(d) {return d * 5})
+    .attr("ry", 5)
+    .attr("rx", function(d, i) {return 20})
+    .attr("fill", "#000000")
+    .attr("stroke", "white")
+    .attr("opacity", 0.55)
+    .attr("stroke-width", 1)
+    .transition()
+    .delay(function(d,i) {
+        return i * 30;
+    })
+    .duration(250)
+    .on("start", function repeat() {
+        d3.active(this)
+        .attr("ry", 100)
+        .transition()
+        .attr("ry", 5)
+        .transition()
+        .on("start", repeat);
+    });
+
+var circle2 = svg2.selectAll("ellipse")
+    .data(data2)
+    .enter()
+    .append("ellipse")
+    .attr("cy", 0)
+    .attr("cx", function(d) {return d * 5})
+    .attr("ry", 5)
+    .attr("rx", function(d, i) {return 20})
+    .attr("fill", "#FF322B")
+    .attr("stroke", "white")
+    .attr("opacity", 0.55)
+    .attr("stroke-width", 1)
+    .transition()
+    .delay(function(d,i) {
+        return i * 30;
+    })
+    .duration(250)
+    .on("start", function repeat() {
+        d3.active(this)
+        .attr("ry", 100)
+        .transition()
+        .attr("ry", 5)
+        .transition()
+        .on("start", repeat);
+    });
+
+var circle3 = svg3.selectAll("ellipse")
+    .data(data2)
+    .enter()
+    .append("ellipse")
+    .attr("cy", 0)
+    .attr("cx", function(d) {return d * 5})
+    .attr("ry", 5)
+    .attr("rx", function(d, i) {return 20})
+    .attr("fill", "#E5E5DC")
+    .attr("stroke", "white")
+    .attr("opacity", 0.55)
+    .attr("stroke-width", 1)
+    .transition()
+    .delay(function(d,i) {
+        return i * 30;
+    })
+    .duration(250)
+    .on("start", function repeat() {
+        d3.active(this)
+        .attr("ry", 100)
+        .transition()
+        .attr("ry", 5)
+        .transition()
+        .on("start", repeat);
+    });
+
+var circle4 = svg4.selectAll("ellipse")
+    .data(data2)
+    .enter()
+    .append("ellipse")
+    .attr("cy", 0)
+    .attr("cx", function(d) {return d * 5})
+    .attr("ry", 5)
+    .attr("rx", function(d, i) {return 20})
+    .attr("fill", "#FFFFFF")
+    .attr("stroke", "Black")
+    .attr("opacity", 0.55)
+    .attr("stroke-width", 1)
+    .transition()
+    .delay(function(d,i) {
+        return i * 30;
+    })
+    .duration(250)
+    .on("start", function repeat() {
+        d3.active(this)
+        .attr("ry", 100)
+        .transition()
+        .attr("ry", 5)
+        .transition()
+        .on("start", repeat);
+    });
+
+</script>
